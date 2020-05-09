@@ -1,0 +1,77 @@
+$darkviolet: #5c53fb;
+$darkviolet-hg: #3d32f8;
+
+p,
+h1,
+h2,
+h3,
+h4,
+h4,
+h5,
+h6 {
+   margin: 0;
+   padding: 0;
+}
+
+button {
+   &.btn {
+      padding: 0.45rem 2.9rem;
+      border: none;
+      font-weight: 600;
+      transition: all 300ms ease;
+
+      &:focus {
+         box-shadow: none;
+      }
+   }
+
+   &.btn-blue {
+      background: $darkviolet;
+      color: #fff;
+
+      &:hover {
+         color: #fff;
+         background: $darkviolet-hg;
+      }
+   }
+
+   &.btn-white {
+      color: $darkviolet;
+      border: 1px solid currentColor;
+      padding: 0.45rem 1.5rem;
+
+      &:hover {
+         color: $darkviolet;
+      }
+   }
+}
+
+input {
+   &.chatly-input {
+      padding: 0.7rem 1rem;
+      height: auto;
+      max-width: 400px;
+      &:focus {
+         box-shadow: none;
+         outline: none;
+      }
+   }
+}
+
+.text-blue {
+   color: $darkviolet;
+}
+
+.text-underline {
+   text-decoration: underline;
+}
+
+.text-hg-underline {
+   &:hover {
+      text-decoration: underline;
+   }
+}
+
+.cursor-pointer {
+   cursor: pointer;
+}
