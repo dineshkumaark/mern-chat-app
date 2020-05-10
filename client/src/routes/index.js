@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route, Router, Redirect } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
 import Routers from "./routes";
 
 import * as Layout from "../layout";
@@ -26,7 +26,7 @@ class RoutesClass extends Component {
 
    render() {
       return (
-         <div className="theme light">
+         <div className="theme dark">
             <Router history={history}>
                {Routers.map(
                   ({
@@ -109,6 +109,17 @@ class RoutesClass extends Component {
                   }
                )}
             </Router>
+            <ToastContainer
+               position="top-right"
+               autoClose={3000}
+               hideProgressBar={false}
+               newestOnTop={false}
+               closeOnClick
+               rtl={false}
+               pauseOnVisibilityChange
+               draggable
+               pauseOnHover
+            />
          </div>
       );
    }

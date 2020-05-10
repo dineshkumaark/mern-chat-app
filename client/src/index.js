@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./helpers";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/index.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
    <Provider store={store}>

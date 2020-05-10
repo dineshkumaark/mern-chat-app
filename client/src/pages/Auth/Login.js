@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Toast } from "../../service/toast";
 import { bindActionCreators } from "redux";
 import { getHomePageDetails } from "action/home";
 import { ReactComponent as MediumLogo } from "../../assets/images/logo/medium-logo.svg";
-import { Form, FormGroup, Input } from "reactstrap";
+import { Form, FormGroup } from "reactstrap";
+import { NormalInput } from "../../component/Input/index";
 import { AnimatedLogo } from "component/logo";
 
 export class LoginClass extends Component {
@@ -12,7 +14,14 @@ export class LoginClass extends Component {
       isLoginOTP: false,
       isSignup: false,
       isPassReset: false,
+      formData: {
+         name: "",
+         phonenum: "",
+         email: "",
+         password: "",
+      },
    };
+
    componentDidMount() {
       this.props.getHomePageDetails();
       setTimeout(() => {
@@ -22,15 +31,55 @@ export class LoginClass extends Component {
       }, 8000);
    }
 
+   resetData = () => {
+      const formData = {
+         name: "",
+         phonenum: "",
+         email: "",
+         password: "",
+      };
+      this.setState({ formData });
+   };
+
+   handleInput = ({ target: { name, value } }) => {
+      const { formData } = this.state;
+      formData[name] = value;
+      this.setState({
+         formData,
+      });
+   };
+
    toggle = (name) => {
       this.setState({
          [name]: !this.state[name],
       });
    };
 
+   handleSubmit = (e) => {
+      e.preventDefault();
+      const {
+         isSignup,
+         formData: { name, password, phonenum, email },
+         isLoginOTP,
+      } = this.state;
+      let payload = {};
+      console.log({ name, password, phonenum, email });
+      this.resetData();
+   };
+
    render() {
-      const { isLoaded, isLoginOTP, isSignup, isPassReset } = this.state;
+      const {
+         isLoaded,
+         isLoginOTP,
+         isSignup,
+         isPassReset,
+         formData,
+      } = this.state;
       let loginTitle = "";
+      let toast = {
+         type: "success",
+         message: "Logged",
+      };
       if (!isSignup && !isPassReset) {
          loginTitle = `Login with ${!isLoginOTP ? "Email" : "OTP"}`;
       } else {
@@ -38,9 +87,11 @@ export class LoginClass extends Component {
       }
       return (
          <div className="login-block row">
-            <div className="col-7 login-background">
+            <div className="col-7 login-background py-5">
                <img
-                  src={require("../../assets/images/login-bg.jpg")}
+                  src={require(`../../assets/images/${
+                     !isSignup ? "login-bg" : "signup-bg"
+                  }.png`)}
                   alt="login-bg"
                />
             </div>
@@ -52,7 +103,7 @@ export class LoginClass extends Component {
                   <MediumLogo />
                </div>
 
-               <Form onSubmit={(e) => e.preventDefault()}>
+               <Form onSubmit={this.handleSubmit}>
                   <div className="login-title mb-4">
                      <h2>{loginTitle}</h2>
                   </div>
@@ -60,33 +111,36 @@ export class LoginClass extends Component {
                      <>
                         <div className="login-block">
                            <FormGroup>
-                              <Input
+                              <NormalInput
                                  type="email"
                                  name="email"
-                                 className="chatly-input"
                                  id="exampleEmail"
                                  placeholder="Enter Email"
+                                 onChange={this.handleInput}
+                                 value={formData.email}
                               />
                            </FormGroup>
                            {isSignup && (
                               <FormGroup>
-                                 <Input
+                                 <NormalInput
                                     type="text"
                                     name="name"
-                                    className="chatly-input"
                                     id="exampleEmail"
                                     placeholder="Enter Name"
+                                    onChange={this.handleInput}
+                                    value={formData.name}
                                  />
                               </FormGroup>
                            )}
                            {!isPassReset && (
                               <FormGroup>
-                                 <Input
+                                 <NormalInput
                                     type="password"
                                     name="password"
-                                    className="chatly-input"
                                     id="password"
                                     placeholder="Enter Password"
+                                    onChange={this.handleInput}
+                                    value={formData.password}
                                  />
                               </FormGroup>
                            )}
@@ -94,11 +148,13 @@ export class LoginClass extends Component {
                      </>
                   ) : (
                      <FormGroup>
-                        <Input
+                        <NormalInput
                            type="tel"
                            name="phonenum"
                            id="phonenum"
                            placeholder="Enter Number"
+                           onChange={this.handleInput}
+                           value={formData.phonenum}
                         />
                      </FormGroup>
                   )}
@@ -106,7 +162,10 @@ export class LoginClass extends Component {
                      <div className="d-flex mx-2 align-items-center justify-content-between">
                         <p
                            className="text-grey cursor-pointer text-hg-underline"
-                           onClick={() => this.toggle("isLoginOTP")}
+                           onClick={() => {
+                              Toast(toast);
+                              this.toggle("isLoginOTP");
+                           }}
                         >
                            {`Login with ${isLoginOTP ? "Email" : "OTP"}`}
                         </p>

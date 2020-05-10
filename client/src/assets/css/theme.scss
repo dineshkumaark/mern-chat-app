@@ -20,7 +20,8 @@ $grey-color: #6c757d;
          }
       }
 
-      .medium-logo-title {
+      .medium-logo-title,
+      .logo-title {
          fill: $dark;
       }
       .text-grey {
@@ -31,6 +32,9 @@ $grey-color: #6c757d;
    &.dark {
       color: $light-color;
       background: $dark;
+      .logo-block {
+         background: $dark;
+      }
 
       input {
          background: $input-bg-dark;
@@ -43,7 +47,8 @@ $grey-color: #6c757d;
          }
       }
 
-      .medium-logo-title {
+      .medium-logo-title,
+      .logo-title {
          fill: $light;
       }
       .text-grey {
