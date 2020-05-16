@@ -110,53 +110,45 @@ export class LoginClass extends Component {
                   {!isLoginOTP ? (
                      <>
                         <div className="login-block">
-                           <FormGroup>
-                              <NormalInput
-                                 type="email"
-                                 name="email"
-                                 id="exampleEmail"
-                                 placeholder="Enter Email"
-                                 onChange={this.handleInput}
-                                 value={formData.email}
-                              />
-                           </FormGroup>
+                           <NormalInput
+                              type="email"
+                              name="email"
+                              id="exampleEmail"
+                              placeholder="Enter Email"
+                              onChange={this.handleInput}
+                              value={formData.email}
+                           />
                            {isSignup && (
-                              <FormGroup>
-                                 <NormalInput
-                                    type="text"
-                                    name="name"
-                                    id="exampleEmail"
-                                    placeholder="Enter Name"
-                                    onChange={this.handleInput}
-                                    value={formData.name}
-                                 />
-                              </FormGroup>
+                              <NormalInput
+                                 type="text"
+                                 name="name"
+                                 id="exampleEmail"
+                                 placeholder="Enter Name"
+                                 onChange={this.handleInput}
+                                 value={formData.name}
+                              />
                            )}
                            {!isPassReset && (
-                              <FormGroup>
-                                 <NormalInput
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="Enter Password"
-                                    onChange={this.handleInput}
-                                    value={formData.password}
-                                 />
-                              </FormGroup>
+                              <NormalInput
+                                 type="password"
+                                 name="password"
+                                 id="password"
+                                 placeholder="Enter Password"
+                                 onChange={this.handleInput}
+                                 value={formData.password}
+                              />
                            )}
                         </div>
                      </>
                   ) : (
-                     <FormGroup>
-                        <NormalInput
-                           type="tel"
-                           name="phonenum"
-                           id="phonenum"
-                           placeholder="Enter Number"
-                           onChange={this.handleInput}
-                           value={formData.phonenum}
-                        />
-                     </FormGroup>
+                     <NormalInput
+                        type="tel"
+                        name="phonenum"
+                        id="phonenum"
+                        placeholder="Enter Number"
+                        onChange={this.handleInput}
+                        value={formData.phonenum}
+                     />
                   )}
                   {!isSignup && !isPassReset && (
                      <div className="d-flex mx-2 align-items-center justify-content-between">
