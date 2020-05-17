@@ -1,0 +1,24 @@
+.custom-otp-input {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   .otp-code-input {
+      max-width: 53px;
+      height: 43px;
+      margin-right: 20px;
+      border-radius: 7px;
+      padding: 0 18px;
+
+      &:focus {
+         outline: none;
+      }
+   }
+   &.code-failed {
+      .otp-code-input {
+         border: 2px solid var(--danger) !important;
+         color: var(--danger) !important;
+         font-weight: bolder;
+      }
+   }
+}

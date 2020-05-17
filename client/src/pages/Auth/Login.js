@@ -7,6 +7,7 @@ import { ReactComponent as MediumLogo } from "../../assets/images/logo/medium-lo
 import { Form, FormGroup } from "reactstrap";
 import { NormalInput } from "../../component/Input/index";
 import { AnimatedLogo } from "component/logo";
+import { LoginBlock, SignUpBlock } from "../../component/loginSignup";
 
 export class LoginClass extends Component {
    state = {
@@ -14,11 +15,18 @@ export class LoginClass extends Component {
       isLoginOTP: false,
       isSignup: false,
       isPassReset: false,
+      isOTPSent: false,
       formData: {
          name: "",
          phonenum: "",
          email: "",
          password: "",
+      },
+      OTPCode: {
+         code1: "",
+         code2: "",
+         code3: "",
+         code4: "",
       },
    };
 
@@ -41,18 +49,29 @@ export class LoginClass extends Component {
       this.setState({ formData });
    };
 
-   handleInput = ({ target: { name, value } }) => {
-      const { formData } = this.state;
-      formData[name] = value;
-      this.setState({
-         formData,
-      });
+   handleInput = ({ target: { name, value } }, lastvar = "") => {
+      const { formData, OTPCode } = this.state;
+      if (lastvar !== "") {
+         OTPCode[name] = value;
+         this.setState({
+            OTPCode,
+         });
+      } else {
+         formData[name] = value;
+         this.setState({
+            formData,
+         });
+      }
    };
 
    toggle = (name) => {
       this.setState({
          [name]: !this.state[name],
       });
+   };
+
+   sendOTPCode = () => {
+      this.toggle("isOTPSent");
    };
 
    handleSubmit = (e) => {
@@ -74,6 +93,8 @@ export class LoginClass extends Component {
          isSignup,
          isPassReset,
          formData,
+         isOTPSent,
+         OTPCode,
       } = this.state;
       let loginTitle = "";
       let toast = {
@@ -102,8 +123,32 @@ export class LoginClass extends Component {
                >
                   <MediumLogo />
                </div>
-
-               <Form onSubmit={this.handleSubmit}>
+               {!isSignup ? (
+                  <LoginBlock
+                     handleInput={this.handleInput}
+                     handleSubmit={this.handleSubmit}
+                     formData={formData}
+                     loginTitle={loginTitle}
+                     isLoginOTP={isLoginOTP}
+                     isSignup={isSignup}
+                     isPassReset={isPassReset}
+                     toggle={this.toggle}
+                  />
+               ) : (
+                  <SignUpBlock
+                     handleInput={this.handleInput}
+                     handleSubmit={this.handleSubmit}
+                     formData={formData}
+                     loginTitle={loginTitle}
+                     isLoginOTP={isLoginOTP}
+                     isSignup={isSignup}
+                     sendOTPCode={this.sendOTPCode}
+                     isOTPSent={isOTPSent}
+                     toggle={this.toggle}
+                     OTPCode={OTPCode}
+                  />
+               )}
+               {/* <Form onSubmit={this.handleSubmit}>
                   <div className="login-title mb-4">
                      <h2>{loginTitle}</h2>
                   </div>
@@ -207,7 +252,7 @@ export class LoginClass extends Component {
                         alt="google icon"
                      />
                   </div>
-               </Form>
+               </Form> */}
             </div>
             {!isLoaded && <AnimatedLogo />}
          </div>
