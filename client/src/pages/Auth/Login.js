@@ -21,6 +21,7 @@ export class LoginClass extends Component {
          phonenum: "",
          email: "",
          password: "",
+         phoneCode: "",
       },
       OTPCode: {
          code1: "",
@@ -45,6 +46,7 @@ export class LoginClass extends Component {
          phonenum: "",
          email: "",
          password: "",
+         phoneCode: "",
       };
       this.setState({ formData });
    };

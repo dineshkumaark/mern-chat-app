@@ -20,6 +20,13 @@ $grey-color: #6c757d;
          }
       }
 
+      .custom-flag-menu {
+         background: $light;
+         button {
+            background: $light;
+         }
+      }
+
       .medium-logo-title,
       .logo-title {
          fill: $dark;
@@ -44,6 +51,13 @@ $grey-color: #6c757d;
 
          &:focus {
             box-shadow: none;
+         }
+      }
+
+      .custom-flag-menu {
+         background: $input-bg-dark;
+         button {
+            background: $input-bg-dark;
          }
       }
 

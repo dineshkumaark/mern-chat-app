@@ -1,6 +1,7 @@
 import React from "react";
 import { Form } from "reactstrap";
 import { NormalInput } from "component/Input";
+import FlagDropDown from "component/FlagDropdown";
 
 export const LoginBlock = ({
    loginTitle,
@@ -40,14 +41,21 @@ export const LoginBlock = ({
                </div>
             </>
          ) : (
-            <NormalInput
-               type="tel"
-               name="phonenum"
-               id="phonenum"
-               placeholder="Enter Number"
-               onChange={handleInput}
-               value={formData.phonenum}
-            />
+            <div className="position-relative">
+               <NormalInput
+                  type="tel"
+                  name="phonenum"
+                  id="phonenum"
+                  placeholder="Enter Number"
+                  className="input-phonenum"
+                  onChange={handleInput}
+                  value={formData.phonenum}
+               />
+               <FlagDropDown
+                  value={formData.phoneCode}
+                  onChange={handleInput}
+               />
+            </div>
          )}
          {!isPassReset && (
             <div className="d-flex mx-2 align-items-center justify-content-between">

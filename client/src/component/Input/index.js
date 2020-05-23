@@ -5,6 +5,7 @@ export const NormalInput = ({
    type = "text",
    name = "test",
    status,
+   className = "",
    errorText = "",
    ...InputProps
 }) => {
@@ -26,7 +27,7 @@ export const NormalInput = ({
          <Input
             type={showPass ? "text" : type}
             name={name}
-            className="chatly-input"
+            className={`chatly-input ${className}`}
             {...InputProps}
          />
          {type === "password" && (

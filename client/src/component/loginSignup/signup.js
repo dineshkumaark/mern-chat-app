@@ -2,6 +2,7 @@ import React from "react";
 import { Form } from "reactstrap";
 import { NormalInput } from "component/Input";
 import { OTPInput } from "component/Input/otpInput";
+import FlagDropDown from "component/FlagDropdown";
 
 export const SignUpBlock = ({
    loginTitle,
@@ -21,14 +22,21 @@ export const SignUpBlock = ({
             <h2>{loginTitle}</h2>
          </div>
          {!isOTPSent ? (
-            <NormalInput
-               type="tel"
-               name="phonenum"
-               id="phonenum"
-               placeholder="Enter Number"
-               onChange={handleInput}
-               value={formData.phonenum}
-            />
+            <div className="position-relative">
+               <NormalInput
+                  type="tel"
+                  name="phonenum"
+                  id="phonenum"
+                  placeholder="Enter Number"
+                  className="input-phonenum"
+                  onChange={handleInput}
+                  value={formData.phonenum}
+               />
+               <FlagDropDown
+                  value={formData.phoneCode}
+                  onChange={handleInput}
+               />
+            </div>
          ) : (
             <OTPInput handleInput={handleInput} OTPCode={OTPCode} />
          )}
@@ -70,28 +78,7 @@ export const SignUpBlock = ({
                onChange={handleInput}
                value={formData.phonenum}
             />
-         )} */}
-         {/* {!isPassReset && (
-            <div className="d-flex mx-2 align-items-center justify-content-between">
-               <p
-                  className="text-grey cursor-pointer text-hg-underline"
-                  onClick={() => {
-                     //  Toast(toast);
-                     toggle("isLoginOTP");
-                  }}
-               >
-                  {`Login with ${isLoginOTP ? "Email" : "OTP"}`}
-               </p>
-               {!isLoginOTP && (
-                  <p
-                     className="text-blue cursor-pointer text-hg-underline"
-                     onClick={() => toggle("isPassReset")}
-                  >
-                     Reset Password
-                  </p>
-               )}
-            </div>
-         )} */}
+         )}         */}
          <div
             className={`action-btn mt-5 d-flex flex-wrap align-items-center justify-content-${
                isOTPSent ? "center" : "between"

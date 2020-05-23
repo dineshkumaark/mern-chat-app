@@ -1,0 +1,42 @@
+.custom-flag-dropdown {
+   position: absolute;
+   top: 0px;
+   height: 100%;
+   display: flex;
+   span {
+      cursor: pointer;
+      padding: 10px;
+      height: 100%;
+      img {
+         margin-right: 3px;
+      }
+   }
+   img {
+      width: 30px;
+   }
+   .custom-flag-menu {
+      min-width: 67px;
+      padding: 8px 0;
+      button {
+         padding: 0;
+         text-align: center;
+         padding-bottom: 6px;
+
+         &:last-child {
+            padding: 0;
+         }
+         &:focus,
+         &:active,
+         &:hover {
+            outline: none;
+            background: transparent;
+         }
+      }
+   }
+}
+
+.custom-input {
+   .input-phonenum {
+      padding-left: 3.9rem;
+   }
+}
