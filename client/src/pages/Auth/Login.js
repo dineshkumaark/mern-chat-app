@@ -8,6 +8,9 @@ import { Form, FormGroup } from "reactstrap";
 import { NormalInput } from "../../component/Input/index";
 import { AnimatedLogo } from "component/logo";
 import { LoginBlock, SignUpBlock } from "../../component/loginSignup";
+import { api } from "service/api";
+import { auth } from "service/apiVariables";
+import { login, getToken } from "service/auth";
 
 export class LoginClass extends Component {
    state = {
@@ -17,11 +20,12 @@ export class LoginClass extends Component {
       isPassReset: false,
       isOTPSent: false,
       formData: {
-         name: "",
-         phonenum: "",
+         firstName: "",
+         lastName: "",
+         phonenum: "7402122488",
          email: "",
          password: "",
-         phoneCode: "",
+         phoneCode: "+91",
       },
       OTPCode: {
          code1: "",
@@ -29,10 +33,17 @@ export class LoginClass extends Component {
          code3: "",
          code4: "",
       },
+      isNewUser: false,
+      profilePic: "",
    };
 
    componentDidMount() {
       this.props.getHomePageDetails();
+
+      if (getToken()) {
+         this.props.history.push("/dashboard");
+      }
+
       setTimeout(() => {
          this.setState({
             isLoaded: true,
@@ -51,7 +62,11 @@ export class LoginClass extends Component {
       this.setState({ formData });
    };
 
-   handleInput = ({ target: { name, value } }, lastvar = "") => {
+   handleInput = (
+      { target: { name, value, files = [] } },
+      lastvar = "",
+      isFile = false
+   ) => {
       const { formData, OTPCode } = this.state;
       if (lastvar !== "") {
          OTPCode[name] = value;
@@ -59,10 +74,18 @@ export class LoginClass extends Component {
             OTPCode,
          });
       } else {
-         formData[name] = value;
-         this.setState({
-            formData,
-         });
+         if (!isFile) {
+            formData[name] = value;
+            this.setState({
+               formData,
+            });
+         } else {
+            console.log(name, files);
+
+            this.setState({
+               profilePic: files[0],
+            });
+         }
       }
    };
 
@@ -72,7 +95,8 @@ export class LoginClass extends Component {
       });
    };
 
-   sendOTPCode = () => {
+   sendOTPCode = (e) => {
+      this.handleSubmit(e);
       this.toggle("isOTPSent");
    };
 
@@ -80,12 +104,104 @@ export class LoginClass extends Component {
       e.preventDefault();
       const {
          isSignup,
-         formData: { name, password, phonenum, email },
+         formData: { password, phonenum, email, phoneCode },
          isLoginOTP,
+         isOTPSent,
+         OTPCode: { code1, code2, code3, code4 },
       } = this.state;
       let payload = {};
-      console.log({ name, password, phonenum, email });
-      this.resetData();
+
+      const { loginWithEmail, signInWithPhone, verifyOTPCode } = auth;
+
+      let apiData;
+
+      if (!isSignup) {
+         loginWithEmail.body = {
+            email,
+            password,
+         };
+
+         apiData = loginWithEmail;
+      } else {
+         if (isOTPSent) {
+            verifyOTPCode.body = {
+               phoneCode,
+               phone: phonenum,
+               code: code1 + code2 + code3 + code4,
+            };
+            apiData = verifyOTPCode;
+         } else {
+            signInWithPhone.body = {
+               phoneCode,
+               phone: phonenum,
+            };
+            apiData = signInWithPhone;
+         }
+      }
+
+      this._loginOrSignupData(apiData);
+   };
+
+   handleSignData = (e) => {
+      e.preventDefault();
+      const {
+         formData: {
+            firstName,
+            lastName,
+            password,
+            phonenum,
+            email,
+            phoneCode,
+         },
+      } = this.state;
+
+      const { signInWithEmail } = auth;
+
+      let apiData;
+
+      signInWithEmail.body = {
+         firstName,
+         lastName,
+         password,
+         phone: phonenum,
+         email,
+         phoneCode,
+      };
+      apiData = signInWithEmail;
+
+      api({ ...apiData })
+         .then((data) => {
+            Toast({ type: "success", message: data.message });
+            // this.resetData();
+            this.setState({
+               isSignup: false,
+            });
+         })
+         .catch((err) => {
+            Toast({ type: "error", message: err.message });
+         });
+   };
+
+   _loginOrSignupData = (apiData) => {
+      api({ ...apiData })
+         .then((data) => {
+            Toast({ type: "success", message: data.message });
+            this.setState(
+               {
+                  isNewUser:
+                     data.isNewUser !== undefined ? data.isNewUser : false,
+               },
+               () => {
+                  if (data.token) {
+                     login({ token: data.token });
+                     this.props.history.push("/dashboard");
+                  }
+               }
+            );
+         })
+         .catch((err) => {
+            Toast({ type: "error", message: err.message });
+         });
    };
 
    render() {
@@ -97,6 +213,8 @@ export class LoginClass extends Component {
          formData,
          isOTPSent,
          OTPCode,
+         isNewUser,
+         profilePic,
       } = this.state;
       let loginTitle = "";
       let toast = {
@@ -109,8 +227,8 @@ export class LoginClass extends Component {
          loginTitle = `${isPassReset ? "Recover" : "Create"} Account`;
       }
       return (
-         <div className="login-block row">
-            <div className="col-7 login-background py-5">
+         <div className="login-block row no-gutters">
+            <div className="col-lg-6 login-background py-lg-5 d-none d-sm-block col-md-6">
                <img
                   src={require(`../../assets/images/${
                      !isSignup ? "login-bg" : "signup-bg"
@@ -118,7 +236,7 @@ export class LoginClass extends Component {
                   alt="login-bg"
                />
             </div>
-            <div className="col-5 login-form">
+            <div className="col-lg-6 login-form col-md-6 col-12">
                <div
                   className="mb-5 login-logo"
                   style={{ opacity: isLoaded ? 1 : 0 }}
@@ -135,6 +253,7 @@ export class LoginClass extends Component {
                      isSignup={isSignup}
                      isPassReset={isPassReset}
                      toggle={this.toggle}
+                     isNewUser={isNewUser}
                   />
                ) : (
                   <SignUpBlock
@@ -145,7 +264,10 @@ export class LoginClass extends Component {
                      isLoginOTP={isLoginOTP}
                      isSignup={isSignup}
                      sendOTPCode={this.sendOTPCode}
+                     handleSignData={this.handleSignData}
                      isOTPSent={isOTPSent}
+                     isNewUser={isNewUser}
+                     profilePic={profilePic}
                      toggle={this.toggle}
                      OTPCode={OTPCode}
                   />

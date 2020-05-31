@@ -26,7 +26,7 @@ const phoneVerifyValidation = (req, res, next) => {
       phone: Joi.string()
          .regex(/^[0-9]{4,13}$/)
          .required(),
-      code: Joi.string().max(4),
+      code: Joi.string().min(4).max(4),
    });
 
    const { error } = schema.validate(req.body);

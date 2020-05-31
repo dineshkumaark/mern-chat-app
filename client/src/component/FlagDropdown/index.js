@@ -43,7 +43,7 @@ const FlagDropDown = ({ onChange, value }) => {
                   onClick={() => {
                      setCurrFlagData({ value, flag, name });
                      onChange &&
-                        onChange({ target: { name: "PhoneCode", value } });
+                        onChange({ target: { name: "phoneCode", value } });
                   }}
                   className="custom-flag-item"
                >

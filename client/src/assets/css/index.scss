@@ -5,7 +5,15 @@
 @import "./Inputs/FormInput.scss";
 @import "./style.css";
 @import "./Inputs/OTPInput.scss";
+@import "./mixins.scss";
 @import "../../component/FlagDropdown/flagDropdown.scss";
+@import "./loginSignup/profilepic.scss";
+@import "./responsive.scss";
+
+$theme-colors: (
+   "primary": #5c53fb,
+   "danger": #ff4136,
+);
 
 body {
    font-family: "Roboto", sans-serif;

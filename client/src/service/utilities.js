@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-   baseURL: process.env.BASE_URL,
+   baseURL: "http://localhost:5005",
    // timeout: 2000,
-   headers: {
-      platform: "web",
-   },
+   // headers: {
+   //    platform: "web",
+   // },
 });

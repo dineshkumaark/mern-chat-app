@@ -1,0 +1,37 @@
+@include media-breakpoint-mobile-port {
+   html {
+      font-size: 14px;
+   }
+   .action-btn {
+      padding-top: 3rem;
+
+      button {
+         width: 100%;
+      }
+   }
+   .login-form {
+      padding-top: 3rem;
+   }
+   .custom-flag-dropdown {
+      span {
+         padding: 5px 6px;
+      }
+   }
+   .custom-otp-input {
+      justify-content: space-between;
+      margin-top: 2rem;
+      input {
+         width: 43px;
+         padding: 0 15px;
+         &:last-child {
+            margin-right: 0;
+         }
+      }
+   }
+}
+
+@include media-breakpoint-tab-port {
+   html {
+      font-size: 14px;
+   }
+}

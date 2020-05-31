@@ -4,11 +4,9 @@ const registerValidation = (req, res, next) => {
    const schema = Joi.object({
       firstName: Joi.string().min(3).required(),
       lastName: Joi.string().min(1).required(),
-      gender: Joi.string()
-         .regex(/^(male|female|others)$/i)
-         .required(),
+      gender: Joi.string().regex(/^(male|female|others)$/i),
       email: Joi.string().max(100).email().required(),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+      password: Joi.string().regex(/^[a-zA-Z0-9!@#$&()\\-`.+,\/"]{3,30}$/),
       phone: Joi.string()
          .regex(/^[0-9]{4,13}$/)
          .required(),
@@ -28,7 +26,7 @@ const registerValidation = (req, res, next) => {
 const loginValidation = (req, res, next) => {
    const schema = Joi.object({
       email: Joi.string().max(100).email().required(),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+      password: Joi.string().regex(/^[a-zA-Z0-9!@#$&()\\-`.+,\/"]{3,30}$/),
    });
 
    const { error } = schema.validate(req.body);

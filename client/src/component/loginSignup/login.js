@@ -86,8 +86,8 @@ export const LoginBlock = ({
                Back
             </p>
          )}
-         <div className="action-btn mt-5 d-flex flex-wrap align-items-center justify-content-between">
-            <button className="btn btn-blue mb-3 mb-lg-0" type="submit">
+         <div className="action-btn my-5 d-flex flex-wrap align-items-center justify-content-between">
+            <button className="btn btn-blue mb-3 mb-md-0" type="submit">
                {!isPassReset ? "Login" : "Send Mail"}
             </button>
             {!isPassReset && (

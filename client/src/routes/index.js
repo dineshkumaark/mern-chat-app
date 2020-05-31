@@ -7,6 +7,7 @@ import * as Layout from "../layout";
 import * as Pages from "../pages";
 
 import { history } from "../helpers";
+import { getToken } from "service/auth";
 
 class RoutesClass extends Component {
    constructor(props) {
